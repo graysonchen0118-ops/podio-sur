@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import type { Acta, Centro, Config, Db, Evidencia, Marca, Persona, Prueba, Rol, Toast, VersionPrueba } from "./types";
 import type { Criterio, Metrica, UnidadId } from "./unidades";
 import { crearPodio } from "./mock/podio";
@@ -13,6 +13,8 @@ import { actaDe, art, cap, firmar, puntuar, vigente, type Puntos } from "./calc"
 // Every action answers after a short delay, like a request to the server.
 
 const espera = (ms: number) => new Promise((r) => setTimeout(r, ms));
+// colours must change before any 3D scene of the new instance reads them on mount
+const useAntes = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 interface Estado {
   dbs: Record<string, Db>;
@@ -81,7 +83,7 @@ function useApi() {
   const yo = db.personas.find((p) => p.id === e.yo[e.activa]);
 
   // the active instance paints the whole site with its own colours
-  useEffect(() => {
+  useAntes(() => {
     const c = db.config.colores;
     const s = document.documentElement.style;
     s.setProperty("--accent", c.acento);

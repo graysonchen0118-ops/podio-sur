@@ -41,6 +41,13 @@ export default function Verificacion() {
       .sort((a, b) => (orden === "reciente" ? b.fecha - a.fecha : a.fecha - b.fecha));
   }, [db.marcas, filtro, prueba, busca, orden, personas, centros, enFiltro]);
   useEffect(() => setPagina(1), [filtro, prueba, busca, orden]);
+  // another instance is another database: its queue starts clean
+  useEffect(() => {
+    setBusca("");
+    setPrueba("");
+    setFiltro("provisional");
+    setAbierta(null);
+  }, [db.config.id]);
 
   const pend = db.marcas.filter((m) => enFiltro(m, "provisional")).length;
   const propias = db.marcas.filter((m) => enFiltro(m, "provisional") && sesion.centroId && m.centroId === sesion.centroId).length;
