@@ -1,0 +1,18 @@
+import type { MetadataRoute } from "next";
+
+export default function manifest(): MetadataRoute.Manifest {
+  return {
+    name: "Podio Sur",
+    short_name: "Podio Sur",
+    description: "Retos, récords y rankings de centros.",
+    start_url: "/app",
+    display: "standalone",
+    background_color: "#f6f3ee",
+    theme_color: "#c4632b",
+    lang: "es",
+    icons: [
+      { src: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { src: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+  };
+}
